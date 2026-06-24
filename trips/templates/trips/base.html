@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}TravelChecklist{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --border: #dbe3ef;
+      --danger: #dc2626;
+      --success: #059669;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .container {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .nav {
+      background: #0f172a;
+      color: white;
+    }
+    .nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      color: white;
+      text-decoration: none;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      margin-bottom: 20px;
+    }
+    .hero {
+      padding: 32px 0 12px;
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+    p {
+      line-height: 1.6;
+    }
+    .button, button, input[type="submit"] {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .button:hover, button:hover, input[type="submit"]:hover {
+      background: var(--primary-dark);
+    }
+    .button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .button.danger {
+      background: var(--danger);
+    }
+    form p {
+      margin-bottom: 14px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font: inherit;
+      background: white;
+    }
+    .muted {
+      color: var(--muted);
+    }
+    ul.clean {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.clean li {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      background: #e0ecff;
+      color: #1d4ed8;
+    }
+    .done {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding-bottom: 32px;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container">
+      <a class="brand" href="{% url 'trips:home' %}">TravelChecklist</a>
+      <div class="nav-links">
+        <a href="{% url 'trips:home' %}">Inicio</a>
+        {% if user.is_authenticated %}
+          <span>Hola, {{ user.username }}</span>
+          <form method="post" action="{% url 'trips:logout' %}" style="margin:0;">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+          </form>
+        {% else %}
+          <a href="{% url 'trips:login' %}">Login</a>
+          <a href="{% url 'trips:signup' %}">Registro</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="container footer">
+    Proyecto de ejemplo con Django.
+  </footer>
+</body>
+</html>

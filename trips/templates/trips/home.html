@@ -1,11 +1,26 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>TravelChecklist</title>
-</head>
-<body>
-  <h1>TravelChecklist</h1>
-  <p>Tu gestor de viajes y tareas.</p>
-</body>
-</html>
+{% extends 'trips/base.html' %}
+
+{% block title %}Inicio | TravelChecklist{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="card">
+      <h1>Organiza tus viajes sin perderte nada</h1>
+      <p>
+        TravelChecklist es una web sencilla para guardar viajes y sus tareas.
+      </p>
+
+      {% if user.is_authenticated %}
+        <p>Has iniciado sesión como <strong>{{ user.username }}</strong>.</p>
+        <p class="muted">
+          En el siguiente bloque del manual añadiremos la gestión de viajes.
+        </p>
+      {% else %}
+        <div class="actions">
+          <a class="button" href="{% url 'trips:login' %}">Iniciar sesión</a>
+          <a class="button secondary" href="{% url 'trips:signup' %}">Crear cuenta</a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
