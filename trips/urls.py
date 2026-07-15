@@ -13,4 +13,11 @@ urlpatterns = [
 
     # Logout usando la vista genérica de Django
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # Rutas del CRUD de viajes
+    path('trips/', views.trip_list, name='trip_list'),
+    path('trips/new/', views.trip_create, name='trip_create'),
+    path('trips/<int:pk>/', views.trip_detail, name='trip_detail'),
+    path('trips/<int:pk>/edit/', views.trip_update, name='trip_update'),
+    path('trips/<int:pk>/delete/', views.trip_delete, name='trip_delete'),
 ]

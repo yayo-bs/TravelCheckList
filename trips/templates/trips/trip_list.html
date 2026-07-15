@@ -1,0 +1,33 @@
+
+{% extends 'trips/base.html' %}
+
+{% block title %}Mis viajes | TravelChecklist{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1>Mis viajes</h1>
+    <p class="muted">Aquí verás todos tus viajes.</p>
+
+    <div class="actions">
+      <a class="button" href="{% url 'trips:trip_create' %}">Nuevo viaje</a>
+    </div>
+
+    {% if trips %}
+      <ul class="clean">
+        {% for trip in trips %}
+          <li>
+            <h3>{{ trip.title }}</h3>
+            <p>{{ trip.destination }} · {{ trip.start_date }} → {{ trip.end_date }}</p>
+            <div class="actions">
+              <a class="button secondary" href="{% url 'trips:trip_detail' trip.pk %}">Ver detalle</a>
+              <a class="button secondary" href="{% url 'trips:trip_update' trip.pk %}">Editar</a>
+              <a class="button danger" href="{% url 'trips:trip_delete' trip.pk %}">Eliminar</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Todavía no has creado ningún viaje.</p>
+    {% endif %}
+  </div>
+{% endblock %}

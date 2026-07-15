@@ -7,14 +7,15 @@
     <div class="card">
       <h1>Organiza tus viajes sin perderte nada</h1>
       <p>
-        TravelChecklist es una web sencilla para guardar viajes y sus tareas.
+        Guarda destinos, fechas y tareas importantes en una sola aplicación.
       </p>
 
       {% if user.is_authenticated %}
         <p>Has iniciado sesión como <strong>{{ user.username }}</strong>.</p>
-        <p class="muted">
-          En el siguiente bloque del manual añadiremos la gestión de viajes.
-        </p>
+        <div class="actions">
+          <a class="button" href="{% url 'trips:trip_list' %}">Ver mis viajes</a>
+          <a class="button secondary" href="/admin/">Ir al admin</a>
+        </div>
       {% else %}
         <div class="actions">
           <a class="button" href="{% url 'trips:login' %}">Iniciar sesión</a>

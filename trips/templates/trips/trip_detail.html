@@ -1,0 +1,24 @@
+
+{% extends 'trips/base.html' %}
+
+{% block title %}{{ trip.title }} | TravelChecklist{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <span class="badge">{{ trip.destination }}</span>
+    <h1>{{ trip.title }}</h1>
+    <p><strong>Fechas:</strong> {{ trip.start_date }} → {{ trip.end_date }}</p>
+
+    {% if trip.notes %}
+      <p><strong>Notas:</strong> {{ trip.notes }}</p>
+    {% else %}
+      <p class="muted">Este viaje no tiene notas.</p>
+    {% endif %}
+
+    <div class="actions">
+      <a class="button secondary" href="{% url 'trips:trip_update' trip.pk %}">Editar viaje</a>
+      <a class="button danger" href="{% url 'trips:trip_delete' trip.pk %}">Eliminar viaje</a>
+      <a class="button secondary" href="{% url 'trips:trip_list' %}">Volver</a>
+    </div>
+  </div>
+{% endblock %}

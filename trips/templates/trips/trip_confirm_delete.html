@@ -1,0 +1,20 @@
+
+{% extends 'trips/base.html' %}
+
+{% block title %}Eliminar viaje | TravelChecklist{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1>Eliminar viaje</h1>
+    <p>Vas a eliminar <strong>{{ trip.title }}</strong>.</p>
+    <p>Esta acción no se puede deshacer.</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="actions">
+        <button class="danger" type="submit">Sí, eliminar</button>
+        <a class="button secondary" href="{% url 'trips:trip_detail' trip.pk %}">Cancelar</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
