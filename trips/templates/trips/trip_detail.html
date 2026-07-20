@@ -1,4 +1,3 @@
-
 {% extends 'trips/base.html' %}
 
 {% block title %}{{ trip.title }} | TravelChecklist{% endblock %}
@@ -16,9 +15,48 @@
     {% endif %}
 
     <div class="actions">
+      <a class="button" href="{% url 'trips:task_create' trip.pk %}">Nueva tarea</a>
       <a class="button secondary" href="{% url 'trips:trip_update' trip.pk %}">Editar viaje</a>
       <a class="button danger" href="{% url 'trips:trip_delete' trip.pk %}">Eliminar viaje</a>
       <a class="button secondary" href="{% url 'trips:trip_list' %}">Volver</a>
     </div>
+  </div>
+
+  <div class="card">
+    <h2>Tareas</h2>
+
+    {% if tasks %}
+      <ul class="clean">
+        {% for task in tasks %}
+          <li>
+            <h3>{{ task.title }}</h3>
+            <p>
+              Prioridad:
+              {% if task.priority == 3 %}
+                Alta
+              {% elif task.priority == 2 %}
+                Media
+              {% else %}
+                Baja
+              {% endif %}
+              {% if task.due_date %} · Fecha límite: {{ task.due_date }}{% endif %}
+            </p>
+
+            {% if task.done %}
+              <p class="done">Completada</p>
+            {% else %}
+              <p class="muted">Pendiente</p>
+            {% endif %}
+
+            <div class="actions">
+              <a class="button secondary" href="{% url 'trips:task_update' task.pk %}">Editar tarea</a>
+              <a class="button danger" href="{% url 'trips:task_delete' task.pk %}">Eliminar tarea</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Todavía no hay tareas para este viaje.</p>
+    {% endif %}
   </div>
 {% endblock %}

@@ -20,4 +20,9 @@ urlpatterns = [
     path('trips/<int:pk>/', views.trip_detail, name='trip_detail'),
     path('trips/<int:pk>/edit/', views.trip_update, name='trip_update'),
     path('trips/<int:pk>/delete/', views.trip_delete, name='trip_delete'),
+
+    # Rutas del CRUD de tareas
+    path('trips/<int:trip_pk>/tasks/new/', views.task_create, name='task_create'),
+    path('tasks/<int:pk>/edit/', views.task_update, name='task_update'),
+    path('tasks/<int:pk>/delete/', views.task_delete, name='task_delete'),
 ]

@@ -1,0 +1,27 @@
+
+{% extends 'trips/base.html' %}
+
+{% block title %}
+  {% if mode == 'create' %}Nueva tarea{% else %}Editar tarea{% endif %} | TravelChecklist
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    {% if mode == 'create' %}
+      <h1>Nueva tarea</h1>
+    {% else %}
+      <h1>Editar tarea</h1>
+    {% endif %}
+
+    <p class="muted">Viaje: {{ trip.title }}</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="actions">
+        <button type="submit">Guardar</button>
+        <a class="button secondary" href="{% url 'trips:trip_detail' trip.pk %}">Cancelar</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
