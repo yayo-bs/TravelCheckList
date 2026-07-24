@@ -1,4 +1,3 @@
-
 {% extends 'trips/base.html' %}
 
 {% block title %}Mis viajes | TravelChecklist{% endblock %}
@@ -6,11 +5,50 @@
 {% block content %}
   <div class="card">
     <h1>Mis viajes</h1>
-    <p class="muted">Aquí verás todos tus viajes.</p>
+    <p class="muted">Ahora el listado permite buscar, filtrar, ordenar y paginar.</p>
 
-    <div class="actions">
-      <a class="button" href="{% url 'trips:trip_create' %}">Nuevo viaje</a>
-    </div>
+    <form method="get" class="stack">
+      <label for="id_q"><strong>Búsqueda</strong></label>
+      <input
+        id="id_q"
+        type="text"
+        name="q"
+        value="{{ q }}"
+        placeholder="Busca por título, destino o notas"
+      >
+
+      <label for="id_destination"><strong>Destino</strong></label>
+      <select id="id_destination" name="destination">
+        <option value="">Todos los destinos</option>
+        {% for item in destinations %}
+          <option value="{{ item }}" {% if destination == item %}selected{% endif %}>
+            {{ item }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <label for="id_order"><strong>Orden</strong></label>
+      <select id="id_order" name="order">
+        <option value="start_desc" {% if order == 'start_desc' %}selected{% endif %}>Fecha de inicio (más reciente primero)</option>
+        <option value="start_asc" {% if order == 'start_asc' %}selected{% endif %}>Fecha de inicio (más antigua primero)</option>
+        <option value="destination_asc" {% if order == 'destination_asc' %}selected{% endif %}>Destino (A-Z)</option>
+        <option value="created_desc" {% if order == 'created_desc' %}selected{% endif %}>Creación (más reciente primero)</option>
+        <option value="created_asc" {% if order == 'created_asc' %}selected{% endif %}>Creación (más antigua primero)</option>
+      </select>
+
+      <div class="actions">
+        <button class="button" type="submit">Aplicar</button>
+        <a class="button secondary" href="{% url 'trips:trip_list' %}">Limpiar filtros</a>
+        <a class="button" href="{% url 'trips:trip_create' %}">Nuevo viaje</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <p class="muted">
+      Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+      Total de viajes en este resultado: {{ page_obj.paginator.count }}.
+    </p>
 
     {% if trips %}
       <ul class="clean">
@@ -26,8 +64,32 @@
           </li>
         {% endfor %}
       </ul>
+
+      {% if page_obj.has_other_pages %}
+        <div class="actions">
+          {% if page_obj.has_previous %}
+            <a
+              class="button secondary"
+              href="?page={{ page_obj.previous_page_number }}&q={{ q|urlencode }}&destination={{ destination|urlencode }}&order={{ order|urlencode }}"
+            >
+              Anterior
+            </a>
+          {% endif %}
+
+          <span class="muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+          {% if page_obj.has_next %}
+            <a
+              class="button secondary"
+              href="?page={{ page_obj.next_page_number }}&q={{ q|urlencode }}&destination={{ destination|urlencode }}&order={{ order|urlencode }}"
+            >
+              Siguiente
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
     {% else %}
-      <p>Todavía no has creado ningún viaje.</p>
+      <p>No hay viajes que cumplan el filtro actual.</p>
     {% endif %}
   </div>
 {% endblock %}

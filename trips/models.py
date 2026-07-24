@@ -34,7 +34,7 @@ class Task(models.Model):
     trip = models.ForeignKey(
         Trip,
         on_delete=models.CASCADE,  # Si se borra el viaje, se borran sus tareas
-        related_name='tasks'       # Permite acceder desde trip.tasks.all()
+        related_name='tasks',       # Permite acceder desde trip.tasks.all()
     )
 
     title = models.CharField(max_length=160)  # Nombre de la tarea
@@ -42,7 +42,7 @@ class Task(models.Model):
     # Prioridad con valores controlados
     priority = models.IntegerField(
         choices=Priority.choices,
-        default=Priority.MEDIUM
+        default=Priority.MEDIUM,
     )
 
     due_date = models.DateField(null=True, blank=True)  # Fecha límite opcional
